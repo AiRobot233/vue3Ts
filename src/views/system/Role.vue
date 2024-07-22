@@ -1,0 +1,99 @@
+<template>
+  <div class="body-div">
+    <div class="heard">
+      <a-button type="primary" @click="add">新增</a-button>
+      <a-button type="primary" @click="reload" :icon="h(ReloadOutlined)" style="margin-left: 10px"/>
+    </div>
+    <div class="content-div">
+      <a-table :dataSource="dataSource" :columns="columns" rowKey="id" :loading="tableLoading" :expandedRowKeys="[1]">
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'action'">
+            <a-button :disabled="record.id === 1" @click="edit(record)" type="link" size="small">修改</a-button>
+            <a-button :disabled="record.id === 1" @click="del(record)" type="link" size="small">删除</a-button>
+          </template>
+        </template>
+      </a-table>
+    </div>
+
+    <RoleModal v-if="visible" :visible="visible" :type="modalType" :params="modalParams" @cancel="cancel"/>
+  </div>
+</template>
+<script setup lang="ts">
+import {createVNode, h, ref} from "vue";
+import {ExclamationCircleOutlined, ReloadOutlined} from "@ant-design/icons-vue";
+import {request} from "@/request/request";
+import RoleModal from "@/components/role/RoleModal.vue";
+import {message, Modal} from "ant-design-vue";
+
+let dataSource = ref<any>([])
+let columns = ref<any>([
+  {
+    title: '名称',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: '操作',
+    dataIndex: 'action',
+    key: 'action',
+    align: 'center',
+  },
+])
+let tableLoading = ref<boolean>(false)
+let visible = ref<boolean>(false)
+let modalType = ref<string>('add')
+let modalParams = ref<any>({})
+
+getData()
+
+function getData() {
+  tableLoading.value = true
+  request('/admin/role', 'get').then(res => {
+    dataSource.value = res.data
+    tableLoading.value = false
+  })
+}
+
+//新增
+const add = () => {
+  modalType.value = 'add'
+  modalParams.value = {}
+  visible.value = true
+}
+
+//编辑
+const edit = (record: any) => {
+  modalType.value = 'edit'
+  modalParams.value = record
+  visible.value = true
+}
+
+//删除
+const del = (record: any) => {
+  Modal.confirm({
+    title: '确认删除该条信息吗？',
+    icon: createVNode(ExclamationCircleOutlined),
+    onOk() {
+      request('/admin/role/' + record.id, 'delete').then(() => {
+        message.success('删除成功')
+        reload()
+      })
+    },
+  });
+}
+
+//刷新
+const reload = () => {
+  getData()
+}
+
+//关闭弹窗
+const cancel = () => {
+  visible.value = false
+  reload()
+}
+</script>
+
+<style scoped>
+
+</style>
