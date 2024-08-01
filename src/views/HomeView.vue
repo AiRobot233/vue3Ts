@@ -1,15 +1,13 @@
 <template>
   <div class="home">
-    <a-button @click="click">打印路由</a-button>
+    <div style="width: 500px;height: 500px">
+
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import router from "@/router";
 
-const click = () => {
-  console.log(router.getRoutes())
-}
 </script>
 
 <style scoped>

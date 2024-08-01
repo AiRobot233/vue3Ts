@@ -7,6 +7,7 @@
       <div class="search">
         <a-tree-select
             v-model:value="search.role_id"
+            :treeDefaultExpandAll="true"
             show-search
             placeholder="请选择角色组搜索"
             allow-clear

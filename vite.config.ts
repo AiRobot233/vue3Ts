@@ -21,6 +21,11 @@ export default defineConfig(({command, mode}) => {
                     target: ev,//服务器地址
                     changeOrigin: true,//允许同源策略
                     rewrite: (path) => path.replace(/^\/api/, "")
+                },
+                "/MAP_zxy": {
+                    target: 'http://42.192.91.187:8081/MAP_zxy',//服务器地址
+                    changeOrigin: true,//允许同源策略
+                    rewrite: (path) => path.replace(/^\/MAP_zxy/, "")
                 }
             },
         },

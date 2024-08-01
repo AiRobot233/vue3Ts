@@ -104,7 +104,7 @@ function getData() {
     const result = findNodeByPath(menuList, route.path)
     if (result !== null) {
       selectedKeys.value = [result?.key]
-      result?.parKey == null ? openKeys.value = [] : openKeys.value = [result?.parKey + 1]
+      openKeys.value = result?.parKey == null ?  [] : [result?.parKey + 1]
     }
   }
 }

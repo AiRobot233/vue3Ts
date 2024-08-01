@@ -41,6 +41,7 @@
               :treeData="ruleData"
               :fieldNames="{children:'children', title:'name', key:'id'}"
               :checkStrictly="true"
+              @check="check"
           />
         </a-form-item>
 
@@ -55,6 +56,7 @@ import {reactive, ref} from 'vue';
 import type {FormInstance} from 'ant-design-vue';
 import {request} from "@/request/request";
 import {message} from "ant-design-vue";
+import {getAllIdsUnderNode, getAllRelatedIds} from "@/utils/utils";
 
 const emit = defineEmits(['cancel']);
 
@@ -100,9 +102,11 @@ function getData() {
     ruleData.value = res.data
   })
 
-  formState.rule = formState.rule.map(function (item: string) {
-    return parseInt(item, 10); // 使用基数10进行解析
-  });
+  if (formState.rule) {
+    formState.rule = formState.rule.map(function (item: string) {
+      return parseInt(item, 10); // 使用基数10进行解析
+    });
+  }
 }
 
 const onOk = () => {
@@ -139,6 +143,19 @@ const onOk = () => {
 
 const cancel = () => {
   emit('cancel')
+}
+
+//手动选中数据
+const check = (checkedKeys: any, e: any) => {
+  if (e.checked) {
+    //合并数组
+    const children = getAllRelatedIds(ruleData.value, e.node.id)
+    checkedKeys.checked = [...new Set([...checkedKeys.checked, ...children])]
+  } else {
+    //移除数组
+    const children = getAllIdsUnderNode(ruleData.value, e.node.id)
+    checkedKeys.checked = checkedKeys.checked.filter((item: any) => !children.includes(item))
+  }
 }
 </script>
 
