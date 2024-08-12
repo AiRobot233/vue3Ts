@@ -17,7 +17,7 @@
       </a-table>
     </div>
 
-    <RuleModal v-if="visible" :visible="visible" :type="modalType" :params="modalParams" @cancel="cancel"/>
+    <RuleModal v-if="visible" v-model:visible="visible" :type="modalType" :params="modalParams"/>
   </div>
 </template>
 <script setup lang="ts">
@@ -86,12 +86,6 @@ const edit = (record: any) => {
   modalType.value = 'edit'
   modalParams.value = record
   visible.value = true
-}
-
-//关闭弹窗
-const cancel = () => {
-  visible.value = false
-  reload()
 }
 
 //删除

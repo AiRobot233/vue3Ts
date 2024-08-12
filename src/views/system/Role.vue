@@ -15,7 +15,7 @@
       </a-table>
     </div>
 
-    <RoleModal v-if="visible" :visible="visible" :type="modalType" :params="modalParams" @cancel="cancel"/>
+    <RoleModal v-if="visible" v-model:visible="visible" :type="modalType" :params="modalParams"/>
   </div>
 </template>
 <script setup lang="ts">
@@ -87,11 +87,6 @@ const reload = () => {
   getData()
 }
 
-//关闭弹窗
-const cancel = () => {
-  visible.value = false
-  reload()
-}
 </script>
 
 <style scoped>

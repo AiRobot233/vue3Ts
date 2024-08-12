@@ -43,7 +43,7 @@
       </a-table>
     </div>
 
-    <UserModal v-if="visible" :visible="visible" :type="modalType" :params="modalParams" @cancel="cancel"/>
+    <UserModal v-if="visible" v-model:visible="visible" :type="modalType" :params="modalParams"/>
   </div>
 </template>
 <script setup lang="ts">
@@ -129,12 +129,6 @@ const del = (record: any) => {
       })
     },
   });
-}
-
-//关闭弹窗
-const cancel = () => {
-  visible.value = false
-  reload()
 }
 
 const reload = () => {

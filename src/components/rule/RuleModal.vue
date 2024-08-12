@@ -4,7 +4,6 @@
         v-model:open="visible"
         :title="title"
         @ok="onOk"
-        @cancel="cancel"
         :confirmLoading="confirmLoading"
         :maskClosable="false"
     >
@@ -61,8 +60,7 @@ import {reactive, ref} from 'vue';
 import type {FormInstance} from 'ant-design-vue';
 import {request} from "@/request/request";
 import {message} from "ant-design-vue";
-
-const emit = defineEmits(['cancel']);
+let visible = defineModel("visible")
 
 const props = defineProps({
   visible: {
@@ -83,7 +81,6 @@ const props = defineProps({
 
 let treeData = ref([])
 const formRef = ref<FormInstance>();
-let visible = ref<boolean>(props.visible);
 let title = ref<string>('新增')
 let confirmLoading = ref<boolean>(false)
 let formState = reactive<any>({
@@ -120,7 +117,6 @@ const onOk = () => {
           }
           request(url, method, values).then(() => {
             message.success('操作成功')
-            cancel()
             confirmLoading.value = false
           }).catch(() => {
             confirmLoading.value = false
@@ -134,9 +130,6 @@ const onOk = () => {
   }
 };
 
-const cancel = () => {
-  emit('cancel')
-}
 </script>
 
 <style scoped>
