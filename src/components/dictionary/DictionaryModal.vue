@@ -22,7 +22,7 @@
               placeholder="请选择上级"
               allow-clear
               :treeData="treeData"
-              :fieldNames="{children:'children', label:'name', key:'id', value: 'id'}"
+              :fieldNames="{children:'children', label:'value', key:'id', value: 'id'}"
           />
         </a-form-item>
         <a-form-item name="name" label="名称" :rules="[{ required: true, message: '请输入名称' }]">
@@ -84,7 +84,7 @@ function getData() {
   props.params?.id ? title.value = '修改' : title.value = '新增'
   //获取上级下拉数据
   request('/admin/sub', 'post', {'dictionary': ''}).then(res => {
-    treeData.value = [{id: 0, name: '顶级', children: res.data}]
+    treeData.value = [{id: 0, value: '顶级', children: res.data}]
   })
 }
 

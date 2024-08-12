@@ -17,6 +17,7 @@
     "ant-design-vue": "4.x",
     "axios": "^1.7.2",
     "dayjs": "^1.11.11",
+    "html2canvas": "^1.4.1",
     "vue": "^3.4.29",
     "vue-demi": "0.14.6",
     "vue-request": "^2.0.4",

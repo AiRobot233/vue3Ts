@@ -37,6 +37,10 @@ export class PaginationService<T> {
             total: this.data.value?.data.total,
             current: this.current.value,
             pageSize: this.pageSize.value,
+            showSizeChanger: true,
+            showTotal: (total: number) => {
+                return `共 ${total} 条`
+            }
         }
     }
 }

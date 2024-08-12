@@ -55,6 +55,7 @@
         </a-form-item>
       </a-form>
     </div>
+
   </div>
 </template>
 <script setup lang="ts">
@@ -65,7 +66,7 @@ import router from "@/router";
 import {reactive, ref} from 'vue';
 import {addRoutes} from "@/router/modules";
 import store from "@/stores";
-import LoginCode from "@/components/loginCode/LoginCode";
+import LoginCode from "@/components/loginCode/LoginCode.vue";
 import {message} from "ant-design-vue";
 
 interface FormState {
@@ -76,7 +77,7 @@ interface FormState {
 
 const formState = reactive<FormState>({
   name: 'root',
-  password: 'Aa#112233',
+  password: '123456',
   code: '',
 });
 

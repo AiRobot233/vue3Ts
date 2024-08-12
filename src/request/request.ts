@@ -1,8 +1,9 @@
 import http from "@/request/axios";
 
 //抛出请求
-export function request(url: string, method: string, params?: any) {
-    url = '/api' + url
+export function request(url: string, method: string, params?: any, prefix?: string) {
+    const p = prefix ? prefix : '/api'
+    url = p + url
     switch (method) {
         case 'get':
             return get(url, params);
