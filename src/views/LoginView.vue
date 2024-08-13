@@ -97,6 +97,7 @@ const onFinish = (values: any) => {
       await addRoutes(res.data.routes, router)
       store.commit('setRouters', res.data.routes) //vuex保存数据
       await router.push({path: '/home'})
+      message.success('登录成功')
       btnLoading.value = false
     }).catch(() => {
       btnLoading.value = false
