@@ -6,6 +6,7 @@
 
       <div class="search">
         <a-tree-select
+            treeNodeFilterProp="name"
             v-model:value="search.role_id"
             :treeDefaultExpandAll="true"
             show-search
@@ -43,7 +44,7 @@
       </a-table>
     </div>
 
-    <UserModal v-if="visible" v-model:visible="visible" :type="modalType" :params="modalParams"/>
+    <UserModal v-if="visible" v-model:visible="visible" :type="modalType" :params="modalParams" @reload="reload"/>
   </div>
 </template>
 <script setup lang="ts">
@@ -65,6 +66,13 @@ const columns = ref([
     dataIndex: 'phone',
     key: 'phone',
     align: 'center',
+  },
+  {
+    title: '所属单位',
+    dataIndex: ['unit', 'name'],
+    key: 'unit',
+    align: 'center',
+    customRender: ({text}: any) => text !== null ? text : '-'
   },
   {
     title: '所属角色',

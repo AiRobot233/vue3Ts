@@ -5,7 +5,7 @@
       <a-button type="primary" @click="reload" :icon="h(ReloadOutlined)" style="margin-left: 10px"/>
     </div>
     <div class="content-div">
-      <a-table :dataSource="dataSource" :columns="columns" rowKey="id" :loading="tableLoading">
+      <a-table :dataSource="dataSource" :columns="columns" rowKey="id" :loading="tableLoading" :pagination="false">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-button @click="addChildren(record)" v-if="record.type === 'page'" type="link" size="small">创建子规则
@@ -17,7 +17,7 @@
       </a-table>
     </div>
 
-    <RuleModal v-if="visible" v-model:visible="visible" :type="modalType" :params="modalParams"/>
+    <RuleModal v-if="visible" v-model:visible="visible" :type="modalType" :params="modalParams" @reload="reload"/>
   </div>
 </template>
 <script setup lang="ts">

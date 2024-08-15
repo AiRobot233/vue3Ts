@@ -56,7 +56,9 @@ import type {FormInstance} from 'ant-design-vue';
 import {request} from "@/request/request";
 import {message} from "ant-design-vue";
 import {getAllIdsUnderNode, getAllRelatedIds} from "@/utils/utils";
+
 let visible = defineModel("visible")
+const emit = defineEmits(['reload']);
 
 const props = defineProps({
   visible: {
@@ -124,7 +126,9 @@ const onOk = () => {
           }
           request(url, method, values).then(() => {
             message.success('操作成功')
+            visible.value = false
             confirmLoading.value = false
+            emit('reload')
           }).catch(() => {
             confirmLoading.value = false
           })

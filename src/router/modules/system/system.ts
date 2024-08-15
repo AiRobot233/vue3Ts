@@ -28,6 +28,12 @@ const system: any = {
             icon: 'UnorderedListOutlined',
             component: () => import('@/views/system/Dictionary.vue')
         },
+        {
+            path: '/unit',
+            name: 'unit',
+            icon: 'UnorderedListOutlined',
+            component: () => import('@/views/system/Unit.vue')
+        },
     ],
 };
 

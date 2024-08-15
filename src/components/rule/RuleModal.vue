@@ -60,8 +60,9 @@ import {reactive, ref} from 'vue';
 import type {FormInstance} from 'ant-design-vue';
 import {request} from "@/request/request";
 import {message} from "ant-design-vue";
-let visible = defineModel("visible")
 
+let visible = defineModel("visible")
+const emit = defineEmits(['reload']);
 const props = defineProps({
   visible: {
     type: Boolean,
@@ -117,7 +118,9 @@ const onOk = () => {
           }
           request(url, method, values).then(() => {
             message.success('操作成功')
+            visible.value = false
             confirmLoading.value = false
+            emit('reload')
           }).catch(() => {
             confirmLoading.value = false
           })
