@@ -107,5 +107,20 @@ const reload = () => {
 </script>
 
 <style scoped>
+.body-div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 
+  .heard {
+    height: 50px;
+    width: 100%;
+  }
+
+  .content-div {
+    height: calc(100% - 50px);
+    width: 100%;
+  }
+}
 </style>

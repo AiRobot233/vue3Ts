@@ -92,7 +92,7 @@ const onFinish = (values: any) => {
   }
   request('/admin/login', 'post', values).then(res => {
     setToken(res.data.token)//登录成功保存token
-    setLocalStorage('userInfo', res.data.user)//登录成功保存user
+    setLocalStorage('admin.userInfo', res.data.user)//登录成功保存user
     request('/admin/routes', 'get').then(async res => {
       await addRoutes(res.data.routes, router)
       store.commit('setRouters', res.data.routes) //vuex保存数据

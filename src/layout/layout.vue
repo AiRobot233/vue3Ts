@@ -93,7 +93,7 @@ getData()
 
 function getData() {
   //获取用户的缓存数据
-  userInfo.value = getLocalStorage('userInfo')
+  userInfo.value = getLocalStorage('admin.userInfo')
 
   //获取vuex菜单数据
   const menuList = store.getters.getMenuList

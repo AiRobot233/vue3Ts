@@ -2,10 +2,10 @@
   <div class="body-div">
     <div class="heard">
       <a-button type="primary" @click="add">新增</a-button>
-      <a-button type="primary" @click="reload" :icon="h(ReloadOutlined)" style="margin-left: 10px" :pagination="false"/>
+      <a-button type="primary" @click="reload" :icon="h(ReloadOutlined)" style="margin-left: 10px"/>
     </div>
     <div class="content-div">
-      <a-table :dataSource="dataSource" :columns="columns" rowKey="id" :loading="tableLoading">
+      <a-table :dataSource="dataSource" :columns="columns" rowKey="id" :loading="tableLoading" :pagination="false">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-button @click="addChildren(record)" type="link" size="small">创建子单位</a-button>
@@ -114,5 +114,20 @@ const reload = () => {
 </script>
 
 <style scoped>
+.body-div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 
+  .heard {
+    height: 50px;
+    width: 100%;
+  }
+
+  .content-div {
+    height: calc(100% - 50px);
+    width: 100%;
+  }
+}
 </style>

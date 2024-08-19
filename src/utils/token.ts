@@ -1,16 +1,16 @@
 //设置token
 export function setToken(value: string) {
-    setLocalStorage('token', value)
+    setLocalStorage('admin.token', value)
 }
 
 //获取token
 export function getToken() {
-    return getLocalStorage('token')
+    return getLocalStorage('admin.token')
 }
 
 //删除token
 export function removeToken() {
-    removeLocalStorage('token');
+    removeLocalStorage('admin.token');
 }
 
 //获取指定LocalStorage数据
@@ -31,5 +31,7 @@ export function removeLocalStorage(key: string) {
 
 //清空LocalStorage
 export function clearLocalStorage() {
-    localStorage.clear();
+    removeLocalStorage('admin.token')
+    removeLocalStorage('admin.userInfo')
+    removeLocalStorage('admin.store')
 }

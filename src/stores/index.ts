@@ -29,7 +29,7 @@ const options = {
     plugins: [
         createPersistedState({
             // 存储的 key 的key值
-            key: "store",
+            key: "admin.store",
         })
     ]
 }
