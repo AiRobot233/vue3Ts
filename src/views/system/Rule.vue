@@ -1,17 +1,26 @@
 <template>
   <div class="body-div">
     <div class="heard">
-      <a-button type="primary" @click="add">新增</a-button>
+      <a-button type="primary" @click="add" v-permission="{ operation: 'create', resource: 'rule' }">新增</a-button>
       <a-button type="primary" @click="reload" :icon="h(ReloadOutlined)" style="margin-left: 10px"/>
     </div>
     <div class="content-div">
-      <a-table :dataSource="dataSource" :columns="columns" rowKey="id" :loading="tableLoading" :pagination="false">
+      <a-table :dataSource="dataSource" :columns="columns" rowKey="id" :loading="tableLoading" :pagination="false"
+               :scroll="{ y: 680 }">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
-            <a-button @click="addChildren(record)" v-if="record.type === 'page'" type="link" size="small">创建子规则
+            <a-button @click="addChildren(record)" v-if="record.type === 'page'" type="link" size="small"
+                      v-permission="{ operation: 'create', resource: 'rule' }">
+              创建子规则
             </a-button>
-            <a-button :disabled="record.id === 1" @click="edit(record)" type="link" size="small">修改</a-button>
-            <a-button :disabled="record.id === 1" @click="del(record)" type="link" size="small">删除</a-button>
+            <a-button :disabled="record.id === 1" @click="edit(record)" type="link" size="small"
+                      v-permission="{ operation: 'update', resource: 'rule' }">
+              修改
+            </a-button>
+            <a-button :disabled="record.id === 1" @click="del(record)" type="link" size="small"
+                      v-permission="{ operation: 'del', resource: 'rule' }">
+              删除
+            </a-button>
           </template>
         </template>
       </a-table>
@@ -33,22 +42,28 @@ let columns = ref<any>([
     title: '名称',
     dataIndex: 'name',
     key: 'name',
+
   },
   {
     title: '类型',
     dataIndex: 'type',
     key: 'type',
+    width: 200,
+    align: 'center',
   },
   {
     title: '路由',
     dataIndex: 'router',
     key: 'router',
+    align: 'center',
+    width: 200,
   },
   {
     title: '操作',
     dataIndex: 'action',
     key: 'action',
     align: 'center',
+    width: 400,
   },
 ])
 let tableLoading = ref<boolean>(false)

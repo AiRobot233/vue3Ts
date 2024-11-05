@@ -1,17 +1,22 @@
 <template>
   <div class="body-div">
     <div class="heard">
-      <a-button type="primary" @click="add">新增</a-button>
+      <a-button type="primary" @click="add" v-permission="{ operation: 'create', resource: 'unit' }">新增</a-button>
       <a-button type="primary" @click="reload" :icon="h(ReloadOutlined)" style="margin-left: 10px"/>
     </div>
     <div class="content-div">
-      <a-table :dataSource="dataSource" :columns="columns" rowKey="id" :loading="tableLoading" :pagination="false">
+      <a-table :dataSource="dataSource" :columns="columns" rowKey="id" :loading="tableLoading" :pagination="false"
+               :scroll="{ y: 680 }">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
-            <a-button @click="addChildren(record)" type="link" size="small">创建子单位</a-button>
-            <a-button @click="edit(record)" type="link" size="small">修改</a-button>
-            <a-button :disabled="record.children !== null" @click="del(record)" type="link" size="small">
-              删除
+            <a-button @click="addChildren(record)" type="link" size="small"
+                      v-permission="{ operation: 'create', resource: 'unit' }">创建子单位
+            </a-button>
+            <a-button @click="edit(record)" type="link" size="small"
+                      v-permission="{ operation: 'update', resource: 'unit' }">修改
+            </a-button>
+            <a-button :disabled="record.children !== null" @click="del(record)" type="link" size="small"
+                      v-permission="{ operation: 'del', resource: 'unit' }">删除
             </a-button>
           </template>
         </template>
@@ -26,7 +31,6 @@ import {createVNode, h, ref} from "vue";
 import {ExclamationCircleOutlined, ReloadOutlined} from "@ant-design/icons-vue";
 import {request} from "@/request/request";
 import {message, Modal} from "ant-design-vue";
-import DictionaryModal from "@/components/dictionary/DictionaryModal.vue";
 import UnitModal from "@/components/unit/UnitModal.vue";
 
 let dataSource = ref<any>([])
@@ -41,12 +45,14 @@ let columns = ref<any>([
     dataIndex: 'type',
     key: 'type',
     align: 'center',
+    width: 200,
   },
   {
     title: '排序值',
     dataIndex: 'sort',
     key: 'sort',
     align: 'center',
+    width: 150,
   },
   {
     title: '操作',

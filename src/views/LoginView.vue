@@ -1,7 +1,7 @@
 <template>
   <div class="body-content">
     <div class="title">
-      <h1>测试站点</h1>
+      <h1>{{ appTitle }}</h1>
     </div>
     <div class="form">
       <a-form
@@ -41,7 +41,12 @@
             :rules="[{ required: true, message: '请输入验证码' }]"
         >
           <div class="code">
-            <a-input v-model:value="formState.code" placeholder="请输入验证码" style="width: 75%"/>
+            <a-input v-model:value="formState.code" placeholder="请输入验证码" style="width: 75%">
+              <template #prefix>
+                <SafetyCertificateOutlined style="color: rgba(0, 0, 0, 0.25)"/>
+              </template>
+
+            </a-input>
             <LoginCode
                 backgroundColor="white"
                 textColor="#000"
@@ -59,7 +64,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {UserOutlined, LockOutlined} from '@ant-design/icons-vue';
+import {UserOutlined, LockOutlined, SafetyCertificateOutlined} from '@ant-design/icons-vue';
 import {request} from "@/request/request";
 import {setLocalStorage, setToken} from "@/utils/token";
 import router from "@/router";
@@ -68,6 +73,8 @@ import {addRoutes} from "@/router/modules";
 import store from "@/stores";
 import LoginCode from "@/components/loginCode/LoginCode.vue";
 import {message} from "ant-design-vue";
+
+const appTitle = import.meta.env.VITE_APP_TITLE;
 
 interface FormState {
   name: string;
@@ -96,6 +103,7 @@ const onFinish = (values: any) => {
     request('/admin/routes', 'get').then(async res => {
       await addRoutes(res.data.routes, router)
       store.commit('setRouters', res.data.routes) //vuex保存数据
+      store.commit('setRoles', res.data.roles) //vuex保存数据
       await router.push({path: '/home'})
       message.success('登录成功')
       btnLoading.value = false

@@ -48,7 +48,13 @@
         </a-form-item>
         <a-form-item v-if="formState.type === 'api'" name="tag" label="按钮权限"
                      :rules="[{ required: false }]">
-          <a-input v-model:value="formState.tag" placeholder="请输入按钮权限"/>
+          <a-auto-complete
+              v-model:value="formState.tag"
+              :options="options"
+              style="width: 200px"
+              placeholder="请输入按钮权限"
+              :filter-option="filterOption"
+          />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -60,6 +66,15 @@ import {reactive, ref} from 'vue';
 import type {FormInstance} from 'ant-design-vue';
 import {request} from "@/request/request";
 import {message} from "ant-design-vue";
+
+const options = ref<any[]>([
+  {value: 'create'},
+  {value: 'update'},
+  {value: 'del'},
+]);
+const filterOption = (input: string, option: any) => {
+  return option.value.toUpperCase().indexOf(input.toUpperCase()) >= 0;
+};
 
 let visible = defineModel("visible")
 const emit = defineEmits(['reload']);

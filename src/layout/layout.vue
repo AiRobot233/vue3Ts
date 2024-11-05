@@ -2,8 +2,8 @@
   <div class="body-content">
     <a-layout style="width: 100%;height: 100%">
       <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
-        <div class="logo" title="测试站点">
-          测试站点
+        <div class="logo" title="{{appTitle}}">
+          {{appTitle}}
         </div>
         <a-menu v-model:openKeys="openKeys" v-model:selectedKeys="selectedKeys" mode="inline" theme="dark">
           <template v-for="item in items">
@@ -80,7 +80,8 @@ import {findNodeByPath, Icon} from "@/utils/menu";
 import {clearLocalStorage, getLocalStorage} from "@/utils/token";
 import EditPassword from "@/components/EditPassword.vue";
 import {Modal} from "ant-design-vue";
-
+import {loadEnv} from "vite";
+const appTitle = import.meta.env.VITE_APP_TITLE;
 
 let items = ref<any>([])
 let selectedKeys = ref<any[]>([]);

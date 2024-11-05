@@ -21,7 +21,7 @@
               placeholder="请选择上级"
               allow-clear
               :treeData="treeData"
-              :fieldNames="{children:'children', label:'value', key:'id', value: 'id'}"
+              :fieldNames="{children:'children', label:'name', key:'id', value: 'id'}"
           />
         </a-form-item>
         <a-form-item name="name" label="名称" :rules="[{ required: true, message: '请输入名称' }]">
@@ -35,6 +35,22 @@
             <a-radio :value="1">是</a-radio>
             <a-radio :value="2">否</a-radio>
           </a-radio-group>
+        </a-form-item>
+        <a-form-item
+            v-if="formState.is_unit === 1"
+            name="check_org"
+            label="管辖单位"
+            :rules="[{ required: true, message: '请选择管辖单位', trigger: 'change' }]"
+        >
+          <a-tree-select
+              treeNodeFilterProp="name"
+              v-model:value="formState.check_org"
+              show-search
+              placeholder="请选择管辖单位"
+              allow-clear
+              :treeData="treeData"
+              :fieldNames="{children:'children', label:'name', key:'id', value: 'id'}"
+          />
         </a-form-item>
         <a-form-item name="sort" label="排序" :rules="[{ required: true, message: '请输入排序值' }]">
           <a-input-number v-model:value="formState.sort"/>
@@ -75,6 +91,7 @@ let formState = reactive<any>({
   type: props.params?.type ? props.params.type : undefined,
   is_unit: props.params?.is_unit ? props.params.is_unit : 1,
   sort: props.params?.sort ? props.params.sort : 0,
+  check_org: props.params?.check_org ? props.params.check_org : 0,
 });
 let options = ref<any>([])
 

@@ -1,16 +1,25 @@
 <template>
   <div class="body-div">
     <div class="heard">
-      <a-button type="primary" @click="add">新增</a-button>
+      <a-button type="primary" @click="add" v-permission="{ operation: 'create', resource: 'dictionary' }">新增
+      </a-button>
       <a-button type="primary" @click="reload" :icon="h(ReloadOutlined)" style="margin-left: 10px"/>
     </div>
     <div class="content-div">
-      <a-table :dataSource="dataSource" :columns="columns" rowKey="id" :loading="tableLoading" :pagination="false">
+      <a-table :dataSource="dataSource" :columns="columns" rowKey="id" :loading="tableLoading" :pagination="false"
+               :scroll="{ y: 680 }">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
-            <a-button @click="addChildren(record)" type="link" size="small">创建子集</a-button>
-            <a-button @click="edit(record)" type="link" size="small">修改</a-button>
-            <a-button :disabled="record.children !== null" @click="del(record)" type="link" size="small">
+            <a-button @click="addChildren(record)" type="link" size="small"
+                      v-permission="{ operation: 'create', resource: 'dictionary' }">
+              创建子集
+            </a-button>
+            <a-button @click="edit(record)" type="link" size="small"
+                      v-permission="{ operation: 'update', resource: 'dictionary' }">
+              修改
+            </a-button>
+            <a-button :disabled="record.children !== null" @click="del(record)" type="link" size="small"
+                      v-permission="{ operation: 'del', resource: 'dictionary' }">
               删除
             </a-button>
           </template>
@@ -34,18 +43,21 @@ let columns = ref<any>([
     title: '名称',
     dataIndex: 'name',
     key: 'name',
+
   },
   {
     title: '值',
     dataIndex: 'value',
     key: 'value',
     align: 'center',
+    width: 450,
   },
   {
     title: '操作',
     dataIndex: 'action',
     key: 'action',
     align: 'center',
+    width: 350,
   },
 ])
 let tableLoading = ref<boolean>(false)

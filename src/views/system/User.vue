@@ -1,7 +1,7 @@
 <template>
   <div class="body-div">
     <div class="heard">
-      <a-button type="primary" @click="add">新增</a-button>
+      <a-button type="primary" @click="add" v-permission="{ operation: 'create', resource: 'user' }">新增</a-button>
       <a-button type="primary" @click="reload" :icon="h(ReloadOutlined)" style="margin-left: 10px"/>
 
       <div class="search">
@@ -29,11 +29,16 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ y: 620 }"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
-            <a-button :disabled="record.id === 1" @click="edit(record)" type="link" size="small">修改</a-button>
-            <a-button :disabled="record.id === 1" @click="del(record)" type="link" size="small">删除</a-button>
+            <a-button :disabled="record.id === 1" @click="edit(record)" type="link" size="small"
+                      v-permission="{ operation: 'update', resource: 'role' }">修改
+            </a-button>
+            <a-button :disabled="record.id === 1" @click="del(record)" type="link" size="small"
+                      v-permission="{ operation: 'del', resource: 'role' }">删除
+            </a-button>
           </template>
 
           <template v-if="column.key === 'status'">
@@ -60,25 +65,30 @@ const columns = ref([
     title: '名称',
     dataIndex: 'name',
     key: 'name',
+    width: 350,
   },
   {
     title: '电话',
     dataIndex: 'phone',
     key: 'phone',
     align: 'center',
+    customRender: ({text}: any) => text !== '' ? text : '-',
+    width: 200,
   },
   {
     title: '所属单位',
     dataIndex: ['unit', 'name'],
     key: 'unit',
     align: 'center',
-    customRender: ({text}: any) => text !== null ? text : '-'
+    customRender: ({text}: any) => text !== null ? text : '-',
+    width: 350,
   },
   {
     title: '所属角色',
     dataIndex: ['role', 'name'],
     key: 'role',
     align: 'center',
+    width: 200,
   },
   {
     title: '状态',
@@ -86,12 +96,15 @@ const columns = ref([
     key: 'status',
     scopedSlots: {customRender: 'status'},
     align: 'center',
+    width: 200,
   },
   {
     title: '操作',
     key: 'action',
     scopedSlots: {customRender: 'action'},
     align: 'center',
+    width: 200,
+    fixed: 'right',
   },
 ])
 
@@ -194,5 +207,8 @@ const searchEvent = () => {
 
 .search {
   margin-left: auto;
+}
+:deep(.ant-tag){
+  margin: 0;
 }
 </style>
