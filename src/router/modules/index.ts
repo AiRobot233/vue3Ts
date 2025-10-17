@@ -1,5 +1,5 @@
 import store from "@/stores";
-import layout from "@/layout/layout.vue";
+import layout from "@/layout/title-layout.vue";
 
 interface Route {
     name: string;

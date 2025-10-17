@@ -3,7 +3,7 @@
     <a-layout style="width: 100%;height: 100%">
       <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
         <div class="logo" title="{{appTitle}}">
-          {{appTitle}}
+          {{ appTitle }}
         </div>
         <a-menu v-model:openKeys="openKeys" v-model:selectedKeys="selectedKeys" mode="inline" theme="dark">
           <template v-for="item in items">
@@ -31,13 +31,20 @@
               class="trigger"
               @click="() => (collapsed = !collapsed)"
           />
-          <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)"/>
+          <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
+
+          <div class="queryTitle">
+            <a-breadcrumb>
+              <a-breadcrumb-item v-for="(item,index) in breadcrumb" :key="index">{{ item }}</a-breadcrumb-item>
+            </a-breadcrumb>
+          </div>
+
           <div class="userTitle">
             <a-dropdown>
               <div style="cursor: pointer">
                 <a-avatar :size="35">
                   <template #icon>
-                    <UserOutlined/>
+                    <UserOutlined />
                   </template>
                 </a-avatar>
                 <span class="user-name">{{ userInfo.name }}</span>
@@ -58,37 +65,45 @@
         <a-layout-content
             :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px',overflowY: 'auto' }"
         >
-          <router-view/>
+          <router-view />
         </a-layout-content>
       </a-layout>
     </a-layout>
 
-    <EditPassword v-if="editPasswordVisible" :visible="editPasswordVisible" @cancel="cancel"/>
+    <EditPassword v-if="editPasswordVisible" :visible="editPasswordVisible" @cancel="cancel" />
   </div>
 </template>
 <script lang="ts" setup>
-import {ref} from 'vue';
+import { ref, watch } from 'vue'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  UserOutlined,
-} from '@ant-design/icons-vue';
-import store from "@/stores";
-import router from "@/router";
-import {useRoute} from "vue-router";
-import {findNodeByPath, Icon} from "@/utils/menu";
-import {clearLocalStorage, getLocalStorage} from "@/utils/token";
-import EditPassword from "@/components/EditPassword.vue";
-import {Modal} from "ant-design-vue";
-import {loadEnv} from "vite";
-const appTitle = import.meta.env.VITE_APP_TITLE;
+  UserOutlined
+} from '@ant-design/icons-vue'
+import store from '@/stores'
+import router from '@/router'
+import { useRoute } from 'vue-router'
+import { findNodeByPath, Icon } from '@/utils/menu'
+import { clearLocalStorage, getLocalStorage } from '@/utils/token'
+import EditPassword from '@/components/EditPassword.vue'
+import { Modal } from 'ant-design-vue'
+
+const appTitle = import.meta.env.VITE_APP_TITLE
 
 let items = ref<any>([])
-let selectedKeys = ref<any[]>([]);
-let openKeys = ref<string[]>([]);
-const collapsed = ref<boolean>(false);
+let selectedKeys = ref<any[]>([])
+let openKeys = ref<string[]>([])
+let breadcrumb = ref<any[]>([])
+const collapsed = ref<boolean>(false)
 let editPasswordVisible = ref<boolean>(false)
 let userInfo = ref<any>()
+
+const route = useRoute()
+
+watch(() => route.fullPath, () => {
+  // 每次路由变化后手动更新 layout 中内容
+  getData()
+})
 
 getData()
 
@@ -101,17 +116,19 @@ function getData() {
   if (menuList !== undefined) {
     items.value = menuList
     //获取默认选中以及打开菜单数据
-    const route = useRoute();
     const result = findNodeByPath(menuList, route.path)
     if (result !== null) {
       selectedKeys.value = [result?.key]
       openKeys.value = result?.parKey == null ? [] : [result?.parKey + 1]
+      breadcrumb.value = result?.nameTrail
+      // 设置网站的标题
+      document.title = result?.nameTrail.join('-')
     }
   }
 }
 
 const click = (item: any) => {
-  router.push({path: item.path})
+  router.push({ path: item.path })
 }
 
 //修改密码
@@ -131,21 +148,28 @@ const loginOut = () => {
     cancelText: '取消',
     onOk() {
       clearLocalStorage()
-      router.push({path: '/login'})
-    },
-  });
+      router.push({ path: '/login' })
+    }
+  })
 }
 </script>
 <style scoped>
+.queryTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 .userTitle {
   margin-right: 40px;
+  margin-left: auto;
 }
 
 .layout-header {
   background: #fff;
   padding: 0;
   display: flex;
-  justify-content: space-between;
 }
 
 .body-content {

@@ -1,28 +1,37 @@
-import {getToken} from "@/utils/token";
+import {getToken, getUserInfo} from '@/utils/token'
 
 const whiteList = ['/404'] //路由白名单
 
 export function setGuard(router: any) {
     router.beforeEach((to: any, from: any, next: any) => {
-        //用户未登录只能访问登录
+        const token = getToken()
+        // 白名单直接放行
         if (whiteList.includes(to.path)) {
-            next();
-        } else {
-            const token = getToken()
-            if (token === null) {
-                if (to.path === '/login') {
-                    next();
-                } else {
-                    next('login');
-                }
+            return next()
+        }
+        // 未登录状态
+        if (!token) {
+            if (to.path === '/login') {
+                return next()
             } else {
-                if (to.path === '/login') {
-                    next('home')
-                } else {
-                    next();
-                }
+                return next('/login')
             }
         }
-    });
+        // 已登录状态访问登录页，跳到首页
+        if (to.path === '/login') {
+            return next('/home')
+        }
+        // 判断是否首次登录，需要跳转修改密码
+        const user = getUserInfo()
+        if (user?.first_login === 1 && to.path !== '/password') {
+            return next('/password')
+        }
+        if (user?.first_login === 2 && to.path === '/password') {
+            return next('/home')
+        }
+        // 默认放行
+        return next()
+    })
 }
+
 

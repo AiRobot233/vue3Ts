@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
-    "ant-design-vue": "~4.2.5",
+    "ant-design-vue": "~4.2.6",
     "axios": "^1.7.7",
     "dayjs": "^1.11.13",
     "html2canvas": "^1.4.1",

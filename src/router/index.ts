@@ -18,6 +18,11 @@ const router = createRouter({
             component: () => import('@/components/404.vue')
         },
         {
+            path: '/password',
+            name: 'password',
+            component: () => import('@/components/FirstEditPassword.vue')
+        },
+        {
             path: '/:pathMatch(.*)*',
             component: () => import('@/components/Loading.vue')
         }

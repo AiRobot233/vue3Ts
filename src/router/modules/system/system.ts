@@ -34,6 +34,12 @@ const system: any = {
             icon: 'UnorderedListOutlined',
             component: () => import('@/views/system/Unit.vue')
         },
+        {
+            path: '/setting',
+            name: 'setting',
+            icon: 'UnorderedListOutlined',
+            component: () => import('@/views/system/Setting.vue')
+        },
     ],
 };
 
