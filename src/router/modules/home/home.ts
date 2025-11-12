@@ -1,8 +1,16 @@
 const home: any = {
-    path: '/home',
-    name: 'home',
+    path: '/business',
+    name: 'business',
     icon: 'HomeOutlined',
-    component: () => import('@/views/HomeView.vue')
+    component: null,
+    children: [
+        {
+            path: '/home',
+            name: 'business/home',
+            icon: 'HomeOutlined',
+            component: () => import('@/views/HomeView.vue')
+        },
+    ]
 };
 
 export default home;

@@ -6,37 +6,37 @@ const system: any = {
     children: [
         {
             path: '/rule',
-            name: 'rule',
+            name: 'system/rule',
             icon: 'UnorderedListOutlined',
             component: () => import('@/views/system/Rule.vue')
         },
         {
             path: '/role',
-            name: 'role',
+            name: 'system/role',
             icon: 'UnorderedListOutlined',
             component: () => import('@/views/system/Role.vue')
         },
         {
             path: '/user',
-            name: 'user',
+            name: 'system/user',
             icon: 'UnorderedListOutlined',
             component: () => import('@/views/system/User.vue')
         },
         {
             path: '/dictionary',
-            name: 'dictionary',
+            name: 'system/dictionary',
             icon: 'UnorderedListOutlined',
             component: () => import('@/views/system/Dictionary.vue')
         },
         {
             path: '/unit',
-            name: 'unit',
+            name: 'system/unit',
             icon: 'UnorderedListOutlined',
             component: () => import('@/views/system/Unit.vue')
         },
         {
             path: '/setting',
-            name: 'setting',
+            name: 'system/setting',
             icon: 'UnorderedListOutlined',
             component: () => import('@/views/system/Setting.vue')
         },
