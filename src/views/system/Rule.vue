@@ -2,7 +2,7 @@
   <div class="body-div">
     <div class="heard">
       <a-button type="primary" @click="reload" :icon="h(ReloadOutlined)" style="margin-right: 10px"/>
-      <a-button type="primary" @click="add" v-permission="{ operation: 'create', resource: 'rule' }">新增</a-button>
+      <a-button type="primary" @click="add" v-permission="{ operation: 'create', resource: 'system/rule' }">新增</a-button>
     </div>
     <div class="content-div">
       <a-table :dataSource="dataSource" :columns="columns" rowKey="id" :loading="tableLoading" :pagination="false"
@@ -10,15 +10,15 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-button @click="addChildren(record)" v-if="record.type === 'page'" type="link" size="small"
-                      v-permission="{ operation: 'create', resource: 'rule' }">
+                      v-permission="{ operation: 'create', resource: 'system/rule' }">
               创建子规则
             </a-button>
             <a-button :disabled="record.id === 1" @click="edit(record)" type="link" size="small"
-                      v-permission="{ operation: 'update', resource: 'rule' }">
+                      v-permission="{ operation: 'update', resource: 'system/rule' }">
               修改
             </a-button>
             <a-button :disabled="record.id === 1" @click="del(record)" type="link" size="small"
-                      v-permission="{ operation: 'del', resource: 'rule' }">
+                      v-permission="{ operation: 'del', resource: 'system/rule' }">
               删除
             </a-button>
           </template>
