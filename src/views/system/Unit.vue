@@ -2,7 +2,7 @@
   <div class="body-div">
     <div class="heard">
       <a-button type="primary" @click="reload" :icon="h(ReloadOutlined)" style="margin-right: 10px"/>
-      <a-button type="primary" @click="add" v-permission="{ operation: 'create', resource: 'unit' }">新增</a-button>
+      <a-button type="primary" @click="add" v-permission="{ operation: 'create', resource: 'system/unit' }">新增</a-button>
     </div>
     <div class="content-div">
       <a-table :dataSource="dataSource" :columns="columns" rowKey="id" :loading="tableLoading" :pagination="false"

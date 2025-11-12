@@ -2,7 +2,7 @@
   <div class="body-div">
     <div class="heard">
       <a-button type="primary" @click="reload" :icon="h(ReloadOutlined)" style="margin-right: 10px"/>
-      <a-button type="primary" @click="add" v-permission="{ operation: 'create', resource: 'dictionary' }">新增
+      <a-button type="primary" @click="add" v-permission="{ operation: 'create', resource: 'system/dictionary' }">新增
       </a-button>
     </div>
     <div class="content-div">
