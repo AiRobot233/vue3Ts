@@ -1,8 +1,16 @@
-const home: any = {
-    path: '/home',
-    name: 'home',
-    icon: 'HomeOutlined',
-    component: () => import('@/views/HomeView.vue')
+const business: any = {
+    path: '/business',
+    name: 'business',
+    icon: 'SettingOutlined',
+    component: null,
+    children: [
+        {
+            path: '/business/home',
+            name: 'business/home',
+            icon: 'UnorderedListOutlined',
+            component: () => import('@/views/HomeView.vue')
+        },
+    ]
 };
 
-export default home;
+export default business;

@@ -10,10 +10,10 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-button :disabled="record.id === 1" @click="edit(record)" type="link" size="small"
-                      v-permission="{ operation: 'update', resource: 'role' }">修改
+                      v-permission="{ operation: 'update', resource: 'system/role' }">修改
             </a-button>
             <a-button :disabled="record.id === 1" @click="del(record)" type="link" size="small"
-                      v-permission="{ operation: 'del', resource: 'role' }">删除
+                      v-permission="{ operation: 'del', resource: 'system/role' }">删除
             </a-button>
           </template>
         </template>

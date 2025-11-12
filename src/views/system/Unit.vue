@@ -10,13 +10,13 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-button @click="addChildren(record)" type="link" size="small"
-                      v-permission="{ operation: 'create', resource: 'unit' }">创建子单位
+                      v-permission="{ operation: 'create', resource: 'system/unit' }">创建子单位
             </a-button>
             <a-button @click="edit(record)" type="link" size="small"
-                      v-permission="{ operation: 'update', resource: 'unit' }">修改
+                      v-permission="{ operation: 'update', resource: 'system/unit' }">修改
             </a-button>
             <a-button :disabled="record.children !== null" @click="del(record)" type="link" size="small"
-                      v-permission="{ operation: 'del', resource: 'unit' }">删除
+                      v-permission="{ operation: 'del', resource: 'system/unit' }">删除
             </a-button>
           </template>
         </template>

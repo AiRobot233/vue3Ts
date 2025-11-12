@@ -29,15 +29,15 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ y: 620 }"
+          :scroll="{ y: scrollY }"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-button :disabled="record.id === 1" @click="edit(record)" type="link" size="small"
-                      v-permission="{ operation: 'update', resource: 'role' }">修改
+                      v-permission="{ operation: 'update', resource: 'system/role' }">修改
             </a-button>
             <a-button :disabled="record.id === 1" @click="del(record)" type="link" size="small"
-                      v-permission="{ operation: 'del', resource: 'role' }">删除
+                      v-permission="{ operation: 'del', resource: 'system/role' }">删除
             </a-button>
           </template>
 
@@ -59,6 +59,9 @@ import {request} from "@/request/request";
 import {PaginationService} from "@/utils/pagination";
 import UserModal from "@/components/user/UserModal.vue";
 import {message, Modal} from "ant-design-vue";
+
+// 表格高度 = 容器高度 - 头部栏高度 - 表头高度等
+const scrollY = computed(() => `calc(100vh - 320px)`)
 
 const columns = ref([
   {

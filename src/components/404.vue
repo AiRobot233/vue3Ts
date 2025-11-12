@@ -12,7 +12,7 @@
 import router from "@/router";
 
 const home = () => {
-  router.push({path: '/home'})
+  router.push({path: '/business/home'})
 }
 </script>
 

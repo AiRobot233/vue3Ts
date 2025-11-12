@@ -11,15 +11,15 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-button @click="addChildren(record)" type="link" size="small"
-                      v-permission="{ operation: 'create', resource: 'dictionary' }">
+                      v-permission="{ operation: 'create', resource: 'system/dictionary' }">
               创建子集
             </a-button>
             <a-button @click="edit(record)" type="link" size="small"
-                      v-permission="{ operation: 'update', resource: 'dictionary' }">
+                      v-permission="{ operation: 'update', resource: 'system/dictionary' }">
               修改
             </a-button>
             <a-button :disabled="record.children !== null" @click="del(record)" type="link" size="small"
-                      v-permission="{ operation: 'del', resource: 'dictionary' }">
+                      v-permission="{ operation: 'del', resource: 'system/dictionary' }">
               删除
             </a-button>
           </template>

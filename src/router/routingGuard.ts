@@ -19,7 +19,7 @@ export function setGuard(router: any) {
         }
         // 已登录状态访问登录页，跳到首页
         if (to.path === '/login') {
-            return next('/home')
+            return next('/business/home')
         }
         // 判断是否首次登录，需要跳转修改密码
         const user = getUserInfo()
@@ -27,7 +27,7 @@ export function setGuard(router: any) {
             return next('/password')
         }
         if (user?.first_login === 2 && to.path === '/password') {
-            return next('/home')
+            return next('/business/home')
         }
         // 默认放行
         return next()

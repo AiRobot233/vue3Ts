@@ -60,7 +60,7 @@ const onOk = () => {
         const user = getUserInfo() //获取用户信息
         user.first_login = 2
         setUserInfo(user) //保存user缓存
-        await router.push({ path: '/home' })
+        await router.push({ path: '/business/home' })
         message.success('修改成功')
       }).catch(() => {
         confirmLoading.value = false

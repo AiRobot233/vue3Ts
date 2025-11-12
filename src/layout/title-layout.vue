@@ -6,7 +6,7 @@
           {{ appTitle }}
         </div>
         <a-menu v-model:openKeys="openKeys" v-model:selectedKeys="selectedKeys" mode="inline" theme="dark">
-          <template v-for="item in items">
+          <template v-for="item in itemsChildren">
             <a-menu-item :key="item.key" v-if="!item.children" @click="click(item)">
               <Icon :icon="item?.icon"></Icon>
               <span>{{ item.title }}</span>
@@ -31,20 +31,24 @@
               class="trigger"
               @click="() => (collapsed = !collapsed)"
           />
-          <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
+          <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)"/>
 
-          <div class="queryTitle">
-            <a-breadcrumb>
-              <a-breadcrumb-item v-for="(item,index) in breadcrumb" :key="index">{{ item }}</a-breadcrumb-item>
-            </a-breadcrumb>
+          <div class="query-title">
+            <div class="top-menu">
+              <div :class="item.key === activeKeys ? 'top-menu-item-active':'top-menu-item'" v-for="item in items"
+                   @click="topMenuClick(item)">
+                <Icon :icon="item?.icon"></Icon>
+                {{ item.title }}
+              </div>
+            </div>
           </div>
 
-          <div class="userTitle">
+          <div class="user-title">
             <a-dropdown>
               <div style="cursor: pointer">
                 <a-avatar :size="35">
                   <template #icon>
-                    <UserOutlined />
+                    <UserOutlined/>
                   </template>
                 </a-avatar>
                 <span class="user-name">{{ userInfo.name }}</span>
@@ -65,16 +69,16 @@
         <a-layout-content
             :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px',overflowY: 'auto' }"
         >
-          <router-view />
+          <router-view/>
         </a-layout-content>
       </a-layout>
     </a-layout>
 
-    <EditPassword v-if="editPasswordVisible" :visible="editPasswordVisible" @cancel="cancel" />
+    <EditPassword v-if="editPasswordVisible" :visible="editPasswordVisible" @cancel="cancel"/>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import {ref} from 'vue'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -82,28 +86,26 @@ import {
 } from '@ant-design/icons-vue'
 import store from '@/stores'
 import router from '@/router'
-import { useRoute } from 'vue-router'
-import { findNodeByPath, Icon } from '@/utils/menu'
-import { clearLocalStorage, getLocalStorage } from '@/utils/token'
+import {useRoute} from 'vue-router'
+import {findNodeByPath, getDeepestNode, Icon} from '@/utils/menu'
+import {clearLocalStorage, getLocalStorage} from '@/utils/token'
 import EditPassword from '@/components/EditPassword.vue'
-import { Modal } from 'ant-design-vue'
+import {Modal} from 'ant-design-vue'
 
 const appTitle = import.meta.env.VITE_APP_TITLE
 
 let items = ref<any>([])
 let selectedKeys = ref<any[]>([])
 let openKeys = ref<string[]>([])
-let breadcrumb = ref<any[]>([])
 const collapsed = ref<boolean>(false)
 let editPasswordVisible = ref<boolean>(false)
 let userInfo = ref<any>()
 
-const route = useRoute()
+//默认选中
+let activeKeys = ref<any>()
+let itemsChildren = ref<any>([])
 
-watch(() => route.fullPath, () => {
-  // 每次路由变化后手动更新 layout 中内容
-  getData()
-})
+const route = useRoute()
 
 getData()
 
@@ -120,7 +122,10 @@ function getData() {
     if (result !== null) {
       selectedKeys.value = [result?.key]
       openKeys.value = result?.parKey == null ? [] : [result?.parKey + 1]
-      breadcrumb.value = result?.nameTrail
+      //顶部默认选中
+      activeKeys.value = result.parKey
+      itemsChildren.value = result.siblings
+
       // 设置网站的标题
       document.title = result?.nameTrail.join('-')
     }
@@ -128,7 +133,7 @@ function getData() {
 }
 
 const click = (item: any) => {
-  router.push({ path: item.path })
+  router.push({path: item.path})
 }
 
 //修改密码
@@ -148,20 +153,57 @@ const loginOut = () => {
     cancelText: '取消',
     onOk() {
       clearLocalStorage()
-      router.push({ path: '/login' })
+      router.push({path: '/login'})
     }
   })
 }
+
+//头部菜单点击
+const topMenuClick = (item: any) => {
+  activeKeys.value = item.key
+  itemsChildren.value = item.children
+  const deepest = getDeepestNode(item)
+  selectedKeys.value = [deepest.key]
+  router.push({ path: deepest.path })
+}
 </script>
 <style scoped>
-.queryTitle {
+.query-title {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
+.top-menu {
+  display: flex;
+  height: 100%;
+  gap: 10px;
 
-.userTitle {
+  .top-menu-item {
+    font-size: 14px;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .top-menu-item-active {
+    font-size: 14px;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+    background-color: #1890ff;
+    color: #ffffff;
+    border-radius: 10px;
+    gap: 5px;
+  }
+}
+
+.user-title {
   margin-right: 40px;
   margin-left: auto;
 }
