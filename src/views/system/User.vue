@@ -1,8 +1,8 @@
 <template>
   <div class="body-div">
     <div class="heard">
+      <a-button type="primary" @click="reload" :icon="h(ReloadOutlined)" style="margin-right: 10px"/>
       <a-button type="primary" @click="add" v-permission="{ operation: 'create', resource: 'user' }">新增</a-button>
-      <a-button type="primary" @click="reload" :icon="h(ReloadOutlined)" style="margin-left: 10px"/>
 
       <div class="search">
         <a-tree-select
